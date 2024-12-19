@@ -7,10 +7,14 @@ import 'package:flutter/foundation.dart';
 part 'pantograph.freezed.dart';
 part 'pantograph.g.dart';
 
+/// 对应 PantoGraph 中的 GoalState 类，但应注意两者并不完全对应
+/// 此类型中植入 session
 @freezed
 class GoalState with _$GoalState {
-  factory GoalState({required List<Goal> goals, required bool is_solved}) =
-      _GoalState;
+  factory GoalState(
+      {required List<Goal> goals,
+      required bool is_solved,
+      required String session}) = _GoalState;
 
   factory GoalState.fromJson(Map<String, Object?> json) =>
       _$GoalStateFromJson(json);
@@ -19,7 +23,7 @@ class GoalState with _$GoalState {
 @freezed
 class Goal with _$Goal {
   factory Goal(
-      {required List<Variable> varibles,
+      {required List<Variable> variables, // corrected spelling
       required String target,
       required List<int> sibling_dep,
       String? name,

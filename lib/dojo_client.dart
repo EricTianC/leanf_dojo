@@ -3,7 +3,6 @@
 library;
 
 import 'dart:async';
-import 'dart:convert';
 import 'package:leanf_dojo/models/pantograph.dart';
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
@@ -16,21 +15,41 @@ class DojoClient {
   GoalState? goalState;
 
   final String remoteUri;
+  String? get session => goalState?.session;
 
-  Future<void> testFunc() async {
+  Future<void> _testFunc() async {
     try {
       var result = await dio.get("$remoteUri/goal_start",
           queryParameters: {"prop": "forall (p q: Prop), Or p q -> Or q p"});
-      logger.t(result.data);
+      logger.t(GoalState.fromJson(result.data));
+    } catch (e) {
+      logger.e(e.toString());
+    }
+  }
 
-      GoalState testState = GoalState(goals: [
-        Goal(
-            varibles: [],
-            target: "forall (p q: Prop), Or p q -> Or q p",
-            sibling_dep: [],
-            is_conversion: false)
-      ], is_solved: false);
-      logger.t(testState.toJson());
+  Future<void> goalStart({required String prop}) async {
+    try {
+      var result = await dio
+          .get("$remoteUri/goal_start", queryParameters: {"prop": prop});
+      goalState = GoalState.fromJson(result.data);
+      logger.t(goalState);
+    } catch (e) {
+      logger.e(e.toString());
+    }
+  }
+
+  Future<void> goalTactic(
+      {required String session,
+      required int goalId,
+      required String tactic}) async {
+    try {
+      var result = await dio.get("$remoteUri/goal_tactic", queryParameters: {
+        "session": session,
+        "goal_id": goalId,
+        "tactic": tactic,
+      });
+      goalState = GoalState.fromJson(result.data);
+      logger.t(goalState);
     } catch (e) {
       logger.e(e.toString());
     }
@@ -38,7 +57,7 @@ class DojoClient {
 
   DojoClient({this.remoteUri = "http://127.0.0.1:9090"}) {
     try {
-      testFunc();
+      _testFunc();
     } catch (e) {
       logger.e(e.toString());
     }

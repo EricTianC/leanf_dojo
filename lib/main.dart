@@ -87,12 +87,14 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           title: Text(widget.title),
           actions: [
-            IconButton(
-              icon: const Icon(Icons.menu_book),
-              onPressed: () {
-                Scaffold.of(context).openEndDrawer();
-              },
-            ),
+            Builder(builder: (context) {
+              return IconButton(
+                icon: const Icon(Icons.menu_book),
+                onPressed: () {
+                  Scaffold.of(context).openEndDrawer();
+                },
+              );
+            }),
           ],
         ),
         endDrawer: const Drawer(

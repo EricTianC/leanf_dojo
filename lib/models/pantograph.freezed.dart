@@ -22,6 +22,7 @@ GoalState _$GoalStateFromJson(Map<String, dynamic> json) {
 mixin _$GoalState {
   List<Goal> get goals => throw _privateConstructorUsedError;
   bool get is_solved => throw _privateConstructorUsedError;
+  String get session => throw _privateConstructorUsedError;
 
   /// Serializes this GoalState to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -38,7 +39,7 @@ abstract class $GoalStateCopyWith<$Res> {
   factory $GoalStateCopyWith(GoalState value, $Res Function(GoalState) then) =
       _$GoalStateCopyWithImpl<$Res, GoalState>;
   @useResult
-  $Res call({List<Goal> goals, bool is_solved});
+  $Res call({List<Goal> goals, bool is_solved, String session});
 }
 
 /// @nodoc
@@ -58,6 +59,7 @@ class _$GoalStateCopyWithImpl<$Res, $Val extends GoalState>
   $Res call({
     Object? goals = null,
     Object? is_solved = null,
+    Object? session = null,
   }) {
     return _then(_value.copyWith(
       goals: null == goals
@@ -68,6 +70,10 @@ class _$GoalStateCopyWithImpl<$Res, $Val extends GoalState>
           ? _value.is_solved
           : is_solved // ignore: cast_nullable_to_non_nullable
               as bool,
+      session: null == session
+          ? _value.session
+          : session // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -80,7 +86,7 @@ abstract class _$$GoalStateImplCopyWith<$Res>
       __$$GoalStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Goal> goals, bool is_solved});
+  $Res call({List<Goal> goals, bool is_solved, String session});
 }
 
 /// @nodoc
@@ -98,6 +104,7 @@ class __$$GoalStateImplCopyWithImpl<$Res>
   $Res call({
     Object? goals = null,
     Object? is_solved = null,
+    Object? session = null,
   }) {
     return _then(_$GoalStateImpl(
       goals: null == goals
@@ -108,6 +115,10 @@ class __$$GoalStateImplCopyWithImpl<$Res>
           ? _value.is_solved
           : is_solved // ignore: cast_nullable_to_non_nullable
               as bool,
+      session: null == session
+          ? _value.session
+          : session // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -115,7 +126,10 @@ class __$$GoalStateImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$GoalStateImpl with DiagnosticableTreeMixin implements _GoalState {
-  _$GoalStateImpl({required final List<Goal> goals, required this.is_solved})
+  _$GoalStateImpl(
+      {required final List<Goal> goals,
+      required this.is_solved,
+      required this.session})
       : _goals = goals;
 
   factory _$GoalStateImpl.fromJson(Map<String, dynamic> json) =>
@@ -131,10 +145,12 @@ class _$GoalStateImpl with DiagnosticableTreeMixin implements _GoalState {
 
   @override
   final bool is_solved;
+  @override
+  final String session;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'GoalState(goals: $goals, is_solved: $is_solved)';
+    return 'GoalState(goals: $goals, is_solved: $is_solved, session: $session)';
   }
 
   @override
@@ -143,7 +159,8 @@ class _$GoalStateImpl with DiagnosticableTreeMixin implements _GoalState {
     properties
       ..add(DiagnosticsProperty('type', 'GoalState'))
       ..add(DiagnosticsProperty('goals', goals))
-      ..add(DiagnosticsProperty('is_solved', is_solved));
+      ..add(DiagnosticsProperty('is_solved', is_solved))
+      ..add(DiagnosticsProperty('session', session));
   }
 
   @override
@@ -153,13 +170,14 @@ class _$GoalStateImpl with DiagnosticableTreeMixin implements _GoalState {
             other is _$GoalStateImpl &&
             const DeepCollectionEquality().equals(other._goals, _goals) &&
             (identical(other.is_solved, is_solved) ||
-                other.is_solved == is_solved));
+                other.is_solved == is_solved) &&
+            (identical(other.session, session) || other.session == session));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_goals), is_solved);
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_goals), is_solved, session);
 
   /// Create a copy of GoalState
   /// with the given fields replaced by the non-null parameter values.
@@ -180,7 +198,8 @@ class _$GoalStateImpl with DiagnosticableTreeMixin implements _GoalState {
 abstract class _GoalState implements GoalState {
   factory _GoalState(
       {required final List<Goal> goals,
-      required final bool is_solved}) = _$GoalStateImpl;
+      required final bool is_solved,
+      required final String session}) = _$GoalStateImpl;
 
   factory _GoalState.fromJson(Map<String, dynamic> json) =
       _$GoalStateImpl.fromJson;
@@ -189,6 +208,8 @@ abstract class _GoalState implements GoalState {
   List<Goal> get goals;
   @override
   bool get is_solved;
+  @override
+  String get session;
 
   /// Create a copy of GoalState
   /// with the given fields replaced by the non-null parameter values.
@@ -204,7 +225,8 @@ Goal _$GoalFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Goal {
-  List<Variable> get varibles => throw _privateConstructorUsedError;
+  List<Variable> get variables =>
+      throw _privateConstructorUsedError; // corrected spelling
   String get target => throw _privateConstructorUsedError;
   List<int> get sibling_dep => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
@@ -225,7 +247,7 @@ abstract class $GoalCopyWith<$Res> {
       _$GoalCopyWithImpl<$Res, Goal>;
   @useResult
   $Res call(
-      {List<Variable> varibles,
+      {List<Variable> variables,
       String target,
       List<int> sibling_dep,
       String? name,
@@ -247,16 +269,16 @@ class _$GoalCopyWithImpl<$Res, $Val extends Goal>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? varibles = null,
+    Object? variables = null,
     Object? target = null,
     Object? sibling_dep = null,
     Object? name = freezed,
     Object? is_conversion = null,
   }) {
     return _then(_value.copyWith(
-      varibles: null == varibles
-          ? _value.varibles
-          : varibles // ignore: cast_nullable_to_non_nullable
+      variables: null == variables
+          ? _value.variables
+          : variables // ignore: cast_nullable_to_non_nullable
               as List<Variable>,
       target: null == target
           ? _value.target
@@ -286,7 +308,7 @@ abstract class _$$GoalImplCopyWith<$Res> implements $GoalCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {List<Variable> varibles,
+      {List<Variable> variables,
       String target,
       List<int> sibling_dep,
       String? name,
@@ -305,16 +327,16 @@ class __$$GoalImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? varibles = null,
+    Object? variables = null,
     Object? target = null,
     Object? sibling_dep = null,
     Object? name = freezed,
     Object? is_conversion = null,
   }) {
     return _then(_$GoalImpl(
-      varibles: null == varibles
-          ? _value._varibles
-          : varibles // ignore: cast_nullable_to_non_nullable
+      variables: null == variables
+          ? _value._variables
+          : variables // ignore: cast_nullable_to_non_nullable
               as List<Variable>,
       target: null == target
           ? _value.target
@@ -340,25 +362,26 @@ class __$$GoalImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$GoalImpl with DiagnosticableTreeMixin implements _Goal {
   _$GoalImpl(
-      {required final List<Variable> varibles,
+      {required final List<Variable> variables,
       required this.target,
       required final List<int> sibling_dep,
       this.name,
       required this.is_conversion})
-      : _varibles = varibles,
+      : _variables = variables,
         _sibling_dep = sibling_dep;
 
   factory _$GoalImpl.fromJson(Map<String, dynamic> json) =>
       _$$GoalImplFromJson(json);
 
-  final List<Variable> _varibles;
+  final List<Variable> _variables;
   @override
-  List<Variable> get varibles {
-    if (_varibles is EqualUnmodifiableListView) return _varibles;
+  List<Variable> get variables {
+    if (_variables is EqualUnmodifiableListView) return _variables;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_varibles);
+    return EqualUnmodifiableListView(_variables);
   }
 
+// corrected spelling
   @override
   final String target;
   final List<int> _sibling_dep;
@@ -376,7 +399,7 @@ class _$GoalImpl with DiagnosticableTreeMixin implements _Goal {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Goal(varibles: $varibles, target: $target, sibling_dep: $sibling_dep, name: $name, is_conversion: $is_conversion)';
+    return 'Goal(variables: $variables, target: $target, sibling_dep: $sibling_dep, name: $name, is_conversion: $is_conversion)';
   }
 
   @override
@@ -384,7 +407,7 @@ class _$GoalImpl with DiagnosticableTreeMixin implements _Goal {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'Goal'))
-      ..add(DiagnosticsProperty('varibles', varibles))
+      ..add(DiagnosticsProperty('variables', variables))
       ..add(DiagnosticsProperty('target', target))
       ..add(DiagnosticsProperty('sibling_dep', sibling_dep))
       ..add(DiagnosticsProperty('name', name))
@@ -396,7 +419,8 @@ class _$GoalImpl with DiagnosticableTreeMixin implements _Goal {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GoalImpl &&
-            const DeepCollectionEquality().equals(other._varibles, _varibles) &&
+            const DeepCollectionEquality()
+                .equals(other._variables, _variables) &&
             (identical(other.target, target) || other.target == target) &&
             const DeepCollectionEquality()
                 .equals(other._sibling_dep, _sibling_dep) &&
@@ -409,7 +433,7 @@ class _$GoalImpl with DiagnosticableTreeMixin implements _Goal {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(_varibles),
+      const DeepCollectionEquality().hash(_variables),
       target,
       const DeepCollectionEquality().hash(_sibling_dep),
       name,
@@ -433,7 +457,7 @@ class _$GoalImpl with DiagnosticableTreeMixin implements _Goal {
 
 abstract class _Goal implements Goal {
   factory _Goal(
-      {required final List<Variable> varibles,
+      {required final List<Variable> variables,
       required final String target,
       required final List<int> sibling_dep,
       final String? name,
@@ -442,7 +466,7 @@ abstract class _Goal implements Goal {
   factory _Goal.fromJson(Map<String, dynamic> json) = _$GoalImpl.fromJson;
 
   @override
-  List<Variable> get varibles;
+  List<Variable> get variables; // corrected spelling
   @override
   String get target;
   @override
