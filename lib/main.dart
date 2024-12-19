@@ -21,7 +21,7 @@ class LeanfApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Provider(
+    return ChangeNotifierProvider(
       create: (context) => DojoClient(),
       child: MaterialApp(
         title: "Leanf",
@@ -73,10 +73,12 @@ class _HomePageState extends State<HomePage> {
                             size: const ResizableSize.ratio(3 / 5),
                             minSize: MediaQuery.of(context).size.height / 5,
                             child: const InfoPanel()),
-                        const ResizableChild(child: PromptPanel()),
+                        ResizableChild(
+                            minSize: MediaQuery.of(context).size.height / 5,
+                            child: const PromptPanel()),
                       ])),
               ResizableChild(
-                  minSize: MediaQuery.of(context).size.height / 5,
+                  minSize: MediaQuery.of(context).size.width / 5,
                   child: const LibraryPanel()),
             ]));
   }
@@ -114,7 +116,7 @@ class _HomePageState extends State<HomePage> {
                   child: const InfoPanel()),
               ResizableChild(
                   minSize: MediaQuery.of(context).size.height / 5,
-                  child: const Text("Below")),
+                  child: const PromptPanel()),
             ]));
   }
 
