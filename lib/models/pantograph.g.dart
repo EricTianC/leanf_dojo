@@ -12,14 +12,14 @@ _$GoalStateImpl _$$GoalStateImplFromJson(Map<String, dynamic> json) =>
           .map((e) => Goal.fromJson(e as Map<String, dynamic>))
           .toList(),
       is_solved: json['is_solved'] as bool,
-      session: json['session'] as String,
+      uuid: json['uuid'] as String,
     );
 
 Map<String, dynamic> _$$GoalStateImplToJson(_$GoalStateImpl instance) =>
     <String, dynamic>{
       'goals': instance.goals,
       'is_solved': instance.is_solved,
-      'session': instance.session,
+      'uuid': instance.uuid,
     };
 
 _$GoalImpl _$$GoalImplFromJson(Map<String, dynamic> json) => _$GoalImpl(

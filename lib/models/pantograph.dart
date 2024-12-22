@@ -14,7 +14,7 @@ class GoalState with _$GoalState {
   factory GoalState(
       {required List<Goal> goals,
       required bool is_solved,
-      required String session}) = _GoalState;
+      required String uuid}) = _GoalState;
 
   factory GoalState.fromJson(Map<String, Object?> json) =>
       _$GoalStateFromJson(json);

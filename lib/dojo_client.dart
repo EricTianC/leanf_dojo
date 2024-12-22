@@ -16,28 +16,13 @@ Logger logger = Logger();
 class DojoClient extends ChangeNotifier {
   GoalState? goalState;
 
-  int? _selectedGoalId;
-  int? get selectedGoalId {
-    if (goalState == null) {
-      _selectedGoalId = null;
-      return null;
-    }
-    if (_selectedGoalId == null) {
-      _selectedGoalId == 0;
-    }
-    if (_selectedGoalId! >= goalState!.goals.length) {
-      _selectedGoalId = goalState!.goals.length - 1;
-    }
-    return _selectedGoalId;
-  }
-
   final String remoteUri;
-  String? get session => goalState?.session;
+  String? get uuid => goalState?.uuid;
 
   Future<void> _testFunc() async {
     try {
       await goalStart(prop: "forall (p q: Prop), Or p q -> Or q p");
-      await goalTactic(session: session!, goalId: 0, tactic: "aesop");
+      await goalTactic(uuid: uuid!, goalId: 0, tactic: "aesop");
       logger.t(goalState);
     } catch (e) {
       // Fluttertoast.showToast(msg: "请检查输入 qwq");
@@ -59,12 +44,12 @@ class DojoClient extends ChangeNotifier {
   }
 
   Future<void> goalTactic(
-      {required String session,
+      {required String uuid,
       required int goalId,
       required String tactic}) async {
     try {
       var result = await dio.get("$remoteUri/goal_tactic", queryParameters: {
-        "session": session,
+        "UUID": uuid,
         "goal_id": goalId,
         "tactic": tactic,
       });
@@ -77,12 +62,12 @@ class DojoClient extends ChangeNotifier {
     }
   }
 
-  Future<void> closeSession() async {
+  Future<void> closeUuid() async {
     try {
-      await dio.get("$remoteUri/close_session", queryParameters: {
-        "session": session,
+      await dio.get("$remoteUri/close_uuid", queryParameters: {
+        "UUID": uuid,
       });
-      logger.t("session: $session closed.");
+      logger.t("state: $uuid closed.");
     } catch (e) {
       logger.e(e.toString());
     }
@@ -97,14 +82,14 @@ class DojoClient extends ChangeNotifier {
   }
 
   void resetGoal() {
-    closeSession();
+    closeUuid();
     goalState = null;
     notifyListeners();
   }
 
   @override
   void dispose() {
-    closeSession();
+    closeUuid();
     super.dispose();
   }
 }

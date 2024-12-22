@@ -82,7 +82,7 @@ class _PromptPanelState extends State<PromptPanel> {
                     controller: useTacticController,
                     onSubmitted: (value) {
                       dojoClient.goalTactic(
-                          session: dojoClient.session!,
+                          uuid: dojoClient.uuid!,
                           goalId: 0,
                           tactic: useTacticController.text); // TODO: 语法检查和异常捕获
                     },
@@ -92,7 +92,7 @@ class _PromptPanelState extends State<PromptPanel> {
             ),
             onTap: () {
               dojoClient.goalTactic(
-                  session: dojoClient.session!,
+                  uuid: dojoClient.uuid!,
                   goalId: 0,
                   tactic: useTacticController.text);
             })

@@ -22,7 +22,7 @@ GoalState _$GoalStateFromJson(Map<String, dynamic> json) {
 mixin _$GoalState {
   List<Goal> get goals => throw _privateConstructorUsedError;
   bool get is_solved => throw _privateConstructorUsedError;
-  String get session => throw _privateConstructorUsedError;
+  String get uuid => throw _privateConstructorUsedError;
 
   /// Serializes this GoalState to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -39,7 +39,7 @@ abstract class $GoalStateCopyWith<$Res> {
   factory $GoalStateCopyWith(GoalState value, $Res Function(GoalState) then) =
       _$GoalStateCopyWithImpl<$Res, GoalState>;
   @useResult
-  $Res call({List<Goal> goals, bool is_solved, String session});
+  $Res call({List<Goal> goals, bool is_solved, String uuid});
 }
 
 /// @nodoc
@@ -59,7 +59,7 @@ class _$GoalStateCopyWithImpl<$Res, $Val extends GoalState>
   $Res call({
     Object? goals = null,
     Object? is_solved = null,
-    Object? session = null,
+    Object? uuid = null,
   }) {
     return _then(_value.copyWith(
       goals: null == goals
@@ -70,9 +70,9 @@ class _$GoalStateCopyWithImpl<$Res, $Val extends GoalState>
           ? _value.is_solved
           : is_solved // ignore: cast_nullable_to_non_nullable
               as bool,
-      session: null == session
-          ? _value.session
-          : session // ignore: cast_nullable_to_non_nullable
+      uuid: null == uuid
+          ? _value.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -86,7 +86,7 @@ abstract class _$$GoalStateImplCopyWith<$Res>
       __$$GoalStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Goal> goals, bool is_solved, String session});
+  $Res call({List<Goal> goals, bool is_solved, String uuid});
 }
 
 /// @nodoc
@@ -104,7 +104,7 @@ class __$$GoalStateImplCopyWithImpl<$Res>
   $Res call({
     Object? goals = null,
     Object? is_solved = null,
-    Object? session = null,
+    Object? uuid = null,
   }) {
     return _then(_$GoalStateImpl(
       goals: null == goals
@@ -115,9 +115,9 @@ class __$$GoalStateImplCopyWithImpl<$Res>
           ? _value.is_solved
           : is_solved // ignore: cast_nullable_to_non_nullable
               as bool,
-      session: null == session
-          ? _value.session
-          : session // ignore: cast_nullable_to_non_nullable
+      uuid: null == uuid
+          ? _value.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -129,7 +129,7 @@ class _$GoalStateImpl with DiagnosticableTreeMixin implements _GoalState {
   _$GoalStateImpl(
       {required final List<Goal> goals,
       required this.is_solved,
-      required this.session})
+      required this.uuid})
       : _goals = goals;
 
   factory _$GoalStateImpl.fromJson(Map<String, dynamic> json) =>
@@ -146,11 +146,11 @@ class _$GoalStateImpl with DiagnosticableTreeMixin implements _GoalState {
   @override
   final bool is_solved;
   @override
-  final String session;
+  final String uuid;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'GoalState(goals: $goals, is_solved: $is_solved, session: $session)';
+    return 'GoalState(goals: $goals, is_solved: $is_solved, uuid: $uuid)';
   }
 
   @override
@@ -160,7 +160,7 @@ class _$GoalStateImpl with DiagnosticableTreeMixin implements _GoalState {
       ..add(DiagnosticsProperty('type', 'GoalState'))
       ..add(DiagnosticsProperty('goals', goals))
       ..add(DiagnosticsProperty('is_solved', is_solved))
-      ..add(DiagnosticsProperty('session', session));
+      ..add(DiagnosticsProperty('uuid', uuid));
   }
 
   @override
@@ -171,13 +171,13 @@ class _$GoalStateImpl with DiagnosticableTreeMixin implements _GoalState {
             const DeepCollectionEquality().equals(other._goals, _goals) &&
             (identical(other.is_solved, is_solved) ||
                 other.is_solved == is_solved) &&
-            (identical(other.session, session) || other.session == session));
+            (identical(other.uuid, uuid) || other.uuid == uuid));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_goals), is_solved, session);
+      const DeepCollectionEquality().hash(_goals), is_solved, uuid);
 
   /// Create a copy of GoalState
   /// with the given fields replaced by the non-null parameter values.
@@ -199,7 +199,7 @@ abstract class _GoalState implements GoalState {
   factory _GoalState(
       {required final List<Goal> goals,
       required final bool is_solved,
-      required final String session}) = _$GoalStateImpl;
+      required final String uuid}) = _$GoalStateImpl;
 
   factory _GoalState.fromJson(Map<String, dynamic> json) =
       _$GoalStateImpl.fromJson;
@@ -209,7 +209,7 @@ abstract class _GoalState implements GoalState {
   @override
   bool get is_solved;
   @override
-  String get session;
+  String get uuid;
 
   /// Create a copy of GoalState
   /// with the given fields replaced by the non-null parameter values.
