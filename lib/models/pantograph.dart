@@ -1,4 +1,6 @@
 /// PantoGraph 的对应模型类
+// ignore_for_file: non_constant_identifier_names
+
 library;
 
 import 'package:freezed_annotation/freezed_annotation.dart';

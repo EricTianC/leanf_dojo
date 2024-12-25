@@ -48,7 +48,7 @@ class UseTacticWidget extends StatelessWidget {
                 onSubmitted: (value) {
                   context.read<Workspace>().runGoalTactic(
                       state: context.read<Workspace>().currentGoalState!,
-                      goalId: 0,
+                      goalId: context.read<Workspace>().selectedGoalId!,
                       tactic: useTacticController.text); // TODO: 语法检查和异常捕获
                 },
               ),
@@ -58,7 +58,7 @@ class UseTacticWidget extends StatelessWidget {
         onTap: () {
           context.read<Workspace>().runGoalTactic(
               state: context.read<Workspace>().currentGoalState!,
-              goalId: 0,
+              goalId: context.read<Workspace>().selectedGoalId!,
               tactic: useTacticController.text);
         });
   }

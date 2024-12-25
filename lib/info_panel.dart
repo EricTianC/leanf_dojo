@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:leanf_dojo/dojo_client.dart';
+// import 'package:leanf_dojo/dojo_client.dart';
 import 'package:leanf_dojo/models/pantograph.dart';
 import 'package:leanf_dojo/workplace_provider.dart';
 import 'package:provider/provider.dart';
 // import 'package:leanf_dojo/models/theorem.dart';
-
-String welcome_message = """
-Welcome!
-""";
 
 class InfoPanel extends StatefulWidget {
   const InfoPanel({
