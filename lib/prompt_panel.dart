@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:leanf_dojo/models/promptor.dart';
+import 'package:leanf_dojo/promptors/new_goal_promptor.dart';
+import 'package:leanf_dojo/promptors/promptor.dart';
+import 'package:leanf_dojo/promptors/use_tactic_promptor.dart';
 // import 'package:leanf_dojo/dojo_client.dart';
 import 'package:leanf_dojo/workplace_provider.dart';
 // import 'package:leanf_dojo/models/pantograph.dart';
@@ -20,7 +22,7 @@ class _PromptPanelState extends State<PromptPanel> {
   Widget build(BuildContext context) {
     Workspace workspace = context.watch<Workspace>();
     List<Promptor> promptors = [
-      ResetPromptor(workspace: workspace),
+      // ResetPromptor(workspace: workspace),
       NewGoalPromptor(workspace: workspace),
       UseTacticPromptor(workspace: workspace)
     ];

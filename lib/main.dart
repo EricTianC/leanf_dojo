@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:leanf_dojo/dojo_client.dart';
+// import 'package:leanf_dojo/dojo_client.dart';
 import 'package:leanf_dojo/info_panel.dart';
 import 'package:leanf_dojo/library_panel.dart';
 // import 'package:leanf_dojo/models/theorem.dart';
@@ -26,6 +26,7 @@ class LeanfApp extends StatelessWidget {
       create: (context) => Workspace(),
       child: MaterialApp(
         title: "Leanf",
+        debugShowCheckedModeBanner: false, // TODO:
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
@@ -50,6 +51,44 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           title: Text(widget.title),
+          actions: [
+            Stack(
+              children: [
+                const Icon(Icons.cloud_sync_outlined),
+                Positioned(
+                  right: 0,
+                  bottom: 0,
+                  child: FutureBuilder<bool>(
+                      future: context.watch<Workspace>().dojoClient.remoteOk,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Icon(
+                            Icons.circle,
+                            color: Colors.grey,
+                            size: 8,
+                          );
+                        } else if (snapshot.hasError) {
+                          return const Icon(
+                            Icons.circle,
+                            color: Colors.red,
+                            size: 8,
+                          );
+                        } else {
+                          return Icon(
+                            Icons.circle,
+                            color: snapshot.data == true
+                                ? Colors.green
+                                : Colors.yellow,
+                            size: 8,
+                          );
+                        }
+                      }),
+                ),
+              ],
+            ),
+            const SizedBox(width: 16),
+          ],
         ),
         body: ResizableContainer(
             direction: Axis.horizontal,
@@ -81,7 +120,17 @@ class _HomePageState extends State<HomePage> {
               ResizableChild(
                   minSize: MediaQuery.of(context).size.width / 5,
                   child: const LibraryPanel()),
-            ]));
+            ]),
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(bottom: 40.0, right: 40.0),
+          child: FloatingActionButton(
+            onPressed: () {
+              context.read<Workspace>().currentGoalState = null;
+            },
+            child: const Icon(Icons.restart_alt),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat);
   }
 
   Widget _narrowPage(BuildContext context) {
@@ -90,6 +139,42 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           title: Text(widget.title),
           actions: [
+            Stack(
+              children: [
+                const Icon(Icons.cloud_sync_outlined),
+                Positioned(
+                  right: 0,
+                  bottom: 0,
+                  child: FutureBuilder<bool>(
+                      future: context.watch<Workspace>().dojoClient.remoteOk,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Icon(
+                            Icons.circle,
+                            color: Colors.grey,
+                            size: 8,
+                          );
+                        } else if (snapshot.hasError) {
+                          return const Icon(
+                            Icons.circle,
+                            color: Colors.red,
+                            size: 8,
+                          );
+                        } else {
+                          return Icon(
+                            Icons.circle,
+                            color: snapshot.data == true
+                                ? Colors.green
+                                : Colors.yellow,
+                            size: 8,
+                          );
+                        }
+                      }),
+                ),
+              ],
+            ),
+            const SizedBox(width: 16),
             Builder(builder: (context) {
               return IconButton(
                 icon: const Icon(Icons.menu_book),
@@ -118,7 +203,17 @@ class _HomePageState extends State<HomePage> {
               ResizableChild(
                   minSize: MediaQuery.of(context).size.height / 5,
                   child: const PromptPanel()),
-            ]));
+            ]),
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(bottom: 40.0, right: 40.0),
+          child: FloatingActionButton(
+            onPressed: () {
+              context.read<Workspace>().currentGoalState = null;
+            },
+            child: const Icon(Icons.restart_alt),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat);
   }
 
   @override

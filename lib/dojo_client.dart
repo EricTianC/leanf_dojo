@@ -4,6 +4,7 @@ library;
 
 import 'dart:async';
 // import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:leanf_dojo/models/pantograph.dart';
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
@@ -15,6 +16,18 @@ Logger logger = Logger();
 
 class DojoClient {
   // GoalState? goalState;
+  Future<bool> get remoteOk async {
+    try {
+      var result = await dio.get("$remoteUri/");
+      if (result.data['hello'] == 'world') {
+        return true;
+      }
+    } catch (e) {
+      logger.e(e);
+      return false;
+    }
+    return false;
+  }
 
   final String remoteUri;
   // String? get uuid => goalState?.uuid;
