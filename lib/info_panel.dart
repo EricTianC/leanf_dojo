@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:leanf_dojo/dojo_client.dart';
 import 'package:leanf_dojo/models/pantograph.dart';
+import 'package:leanf_dojo/workplace_provider.dart';
 import 'package:provider/provider.dart';
 // import 'package:leanf_dojo/models/theorem.dart';
 
@@ -20,7 +21,7 @@ class InfoPanel extends StatefulWidget {
 class _InfoPanelState extends State<InfoPanel> {
   @override
   Widget build(BuildContext context) {
-    if (context.watch<DojoClient>().goalState?.goals.isEmpty ?? true) {
+    if (context.watch<Workspace>().currentGoalState?.goals.isEmpty ?? true) {
       return const Stack(
         children: [
           Center(
@@ -40,86 +41,121 @@ class _InfoPanelState extends State<InfoPanel> {
         child: Wrap(
           spacing: 20,
           runSpacing: 20,
+          // children: context
+          //     .watch<Workspace>()
+          //     .currentGoalState!
+          //     .goals
+          //     .map(goalCard)
           children: context
-              .watch<DojoClient>()
-              .goalState!
+              .watch<Workspace>()
+              .currentGoalState!
               .goals
-              .map(goalCard)
+              .indexed
+              .map<Widget>((entry) => GoalCard(
+                    goal: entry.$2,
+                    goalId: entry.$1,
+                  ))
               .toList(),
         ),
       ),
     );
   }
+}
 
-  ConstrainedBox goalCard(Goal goal) {
+class GoalCard extends StatelessWidget {
+  const GoalCard({
+    super.key,
+    // required this.context,
+    required this.goal,
+    required this.goalId,
+    // required this.workspace,
+  });
+
+  // final BuildContext context;
+  final Goal goal;
+  final int goalId;
+  // final Workspace workspace;
+
+  @override
+  Widget build(BuildContext context) {
+    Workspace workspace = context.watch<Workspace>();
     return ConstrainedBox(
         constraints:
             const BoxConstraints(minHeight: 200, maxWidth: 500, minWidth: 80),
-        child: Card(
-            elevation: 2.0,
-            child: Stack(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ...goal.variables
-                          .map((variable) => Text.rich(TextSpan(children: [
-                                TextSpan(
-                                    style: TextStyle(
+        child: GestureDetector(
+          onTap: () {
+            if (goalId == workspace.selectedGoalId) {
+              workspace.selectedGoalId = null;
+            } else {
+              workspace.selectedGoalId = goalId;
+            }
+          },
+          child: Card(
+              elevation: goalId == workspace.selectedGoalId ? 6 : 2,
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      // mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ...goal.variables
+                            .map((variable) => Text.rich(TextSpan(children: [
+                                  TextSpan(
+                                      style: TextStyle(
+                                        fontFamily: 'JuliaMono',
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.amber.shade700,
+                                      ),
+                                      text: variable.name),
+                                  TextSpan(
+                                    style: const TextStyle(
+                                      fontFamily: 'JuliaMono',
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                    text: ': ${variable.t}',
+                                  ),
+                                  TextSpan(
+                                    style: const TextStyle(
                                       fontFamily: 'JuliaMono',
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.amber.shade700,
                                     ),
-                                    text: variable.name),
-                                TextSpan(
-                                  style: const TextStyle(
+                                    text: (variable.v != null)
+                                        ? '= ${variable.v}'
+                                        : '',
+                                  )
+                                ]))),
+                        Text.rich(
+                          TextSpan(children: [
+                            TextSpan(
+                                style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimaryFixedVariant,
                                     fontFamily: 'JuliaMono',
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                  text: ': ${variable.t}',
-                                ),
-                                TextSpan(
-                                  style: const TextStyle(
-                                    fontFamily: 'JuliaMono',
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  text: (variable.v != null)
-                                      ? '= ${variable.v}'
-                                      : '',
-                                )
-                              ]))),
-                      Text.rich(
-                        TextSpan(children: [
-                          TextSpan(
-                              style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onPrimaryFixedVariant,
-                                  fontFamily: 'JuliaMono',
-                                  fontWeight:
-                                      FontWeight.w600), // added fontWeight
-                              text: '⊢ '),
-                          TextSpan(
-                            text: goal.target,
-                            style: const TextStyle(fontFamily: 'SourceCode'),
-                          )
-                        ]),
-                      ),
-                    ],
+                                    fontWeight:
+                                        FontWeight.w600), // added fontWeight
+                                text: '⊢ '),
+                            TextSpan(
+                              text: goal.target,
+                              style: const TextStyle(fontFamily: 'SourceCode'),
+                            )
+                          ]),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Positioned(
-                  top: 4,
-                  left: 4,
-                  child: Text(
-                    goal.name ?? '',
-                    style: const TextStyle(color: Colors.grey),
+                  Positioned(
+                    top: 4,
+                    left: 4,
+                    child: Text(
+                      goal.name ?? '',
+                      style: const TextStyle(color: Colors.grey),
+                    ),
                   ),
-                ),
-              ],
-            )));
+                ],
+              )),
+        ));
   }
 }

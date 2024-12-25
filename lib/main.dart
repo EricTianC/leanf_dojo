@@ -4,6 +4,7 @@ import 'package:leanf_dojo/info_panel.dart';
 import 'package:leanf_dojo/library_panel.dart';
 // import 'package:leanf_dojo/models/theorem.dart';
 import 'package:leanf_dojo/prompt_panel.dart';
+import 'package:leanf_dojo/workplace_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_resizable_container/flutter_resizable_container.dart';
 // import 'package:desktop_webview_window/desktop_webview_window.dart';
@@ -22,7 +23,7 @@ class LeanfApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => DojoClient(),
+      create: (context) => Workspace(),
       child: MaterialApp(
         title: "Leanf",
         theme: ThemeData(

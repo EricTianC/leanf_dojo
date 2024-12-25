@@ -3,7 +3,7 @@
 library;
 
 import 'dart:async';
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:leanf_dojo/models/pantograph.dart';
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
@@ -13,61 +13,65 @@ Dio dio = Dio();
 
 Logger logger = Logger();
 
-class DojoClient extends ChangeNotifier {
-  GoalState? goalState;
+class DojoClient {
+  // GoalState? goalState;
 
   final String remoteUri;
-  String? get uuid => goalState?.uuid;
+  // String? get uuid => goalState?.uuid;
 
   Future<void> _testFunc() async {
     try {
-      await goalStart(prop: "forall (p q: Prop), Or p q -> Or q p");
-      await goalTactic(uuid: uuid!, goalId: 0, tactic: "aesop");
-      logger.t(goalState);
+      var state0 =
+          await goalStart(prop: "forall (p q: Prop), Or p q -> Or q p");
+      var state1 = await goalTactic(state: state0!, goalId: 0, tactic: "aesop");
+      // logger.t(state1);
+      assert(state1?.is_solved == true);
     } catch (e) {
       // Fluttertoast.showToast(msg: "请检查输入 qwq");
       logger.e(e.toString());
     }
   }
 
-  Future<void> goalStart({required String prop}) async {
+  Future<GoalState?> goalStart({required String prop}) async {
     try {
       var result = await dio
           .get("$remoteUri/goal_start", queryParameters: {"prop": prop});
-      goalState = GoalState.fromJson(result.data);
-      notifyListeners();
+      GoalState goalState = GoalState.fromJson(result.data);
       logger.t(goalState);
+      return goalState;
     } catch (e) {
       // Fluttertoast.showToast(msg: "请检查输入 qwq");
       logger.e(e.toString());
+      return null;
     }
   }
 
-  Future<void> goalTactic(
-      {required String uuid,
+  Future<GoalState?> goalTactic(
+      {required GoalState state,
       required int goalId,
       required String tactic}) async {
     try {
       var result = await dio.get("$remoteUri/goal_tactic", queryParameters: {
-        "UUID": uuid,
+        "UUID": state.uuid,
         "goal_id": goalId,
         "tactic": tactic,
       });
-      goalState = GoalState.fromJson(result.data);
-      notifyListeners();
+      GoalState goalState = GoalState.fromJson(result.data);
       logger.t(goalState);
+      return goalState;
     } catch (e) {
       // Fluttertoast.showToast(msg: "请检查输入 qwq");
       logger.e(e.toString());
+      return null;
     }
   }
 
-  Future<void> closeUuid() async {
+  Future<void> closeState(GoalState state) async {
     try {
       await dio.get("$remoteUri/close_uuid", queryParameters: {
-        "UUID": uuid,
+        "UUID": state.uuid,
       });
-      logger.t("state: $uuid closed.");
+      logger.t("state: ${state.uuid} closed.");
     } catch (e) {
       logger.e(e.toString());
     }
@@ -81,15 +85,15 @@ class DojoClient extends ChangeNotifier {
     }
   }
 
-  void resetGoal() {
-    closeUuid();
-    goalState = null;
-    notifyListeners();
-  }
+  // void resetGoal() {
+  //   closeState();
+  //   goalState = null;
+  //   notifyListeners();
+  // }
 
-  @override
-  void dispose() {
-    closeUuid();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   closeState();
+  //   super.dispose();
+  // }
 }

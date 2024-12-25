@@ -8,7 +8,7 @@ part 'pantograph.freezed.dart';
 part 'pantograph.g.dart';
 
 /// 对应 PantoGraph 中的 GoalState 类，但应注意两者并不完全对应
-/// 此类型中植入 session
+/// 此类型中植入 uuid
 @freezed
 class GoalState with _$GoalState {
   factory GoalState(

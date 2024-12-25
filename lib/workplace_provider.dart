@@ -1,25 +1,35 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:leanf_dojo/dojo_client.dart';
 import 'package:leanf_dojo/models/pantograph.dart';
 
-class Workplace extends ChangeNotifier {
+class Workspace extends ChangeNotifier {
   DojoClient dojoClient;
 
-  String get remoteUri => dojoClient.remoteUri;
-  GoalState? get goalState => dojoClient.goalState;
+  List<GoalState> goalStates = [];
 
+  String get remoteUri => dojoClient.remoteUri;
+
+  /// currentGoalState
+  GoalState? _currentGoalState;
+
+  GoalState? get currentGoalState {
+    return _currentGoalState;
+  }
+
+  set currentGoalState(GoalState? value) {
+    _currentGoalState = value;
+    notifyListeners();
+  }
+
+  /// selectedGoalId
   int? _selectedGoalId;
   int? get selectedGoalId {
-    if (goalState == null) {
+    if (currentGoalState == null) {
       _selectedGoalId = null;
       return null;
     }
-    if (_selectedGoalId == null) {
-      _selectedGoalId == 0;
-    }
-    if (_selectedGoalId! >= goalState!.goals.length) {
-      _selectedGoalId = goalState!.goals.length - 1;
-    }
+
     return _selectedGoalId;
   }
 
@@ -28,7 +38,29 @@ class Workplace extends ChangeNotifier {
     notifyListeners();
   }
 
-  Workplace({String? remoteUri})
+  /// 基于 currentGoalState 命令行模式的 goal_start 命令
+  Future<void> runGoalStart({required String prop}) async {
+    GoalState? goalState = await dojoClient.goalStart(prop: prop);
+    if (goalState != null) {
+      goalStates.add(goalState);
+      currentGoalState = goalState;
+    }
+  }
+
+  /// 基于 currentGoalState 命令行模式的 goal_tactic 命令
+  Future<void> runGoalTactic(
+      {required GoalState state,
+      required int goalId,
+      required String tactic}) async {
+    GoalState? newState = await dojoClient.goalTactic(
+        state: state, goalId: selectedGoalId ?? 0, tactic: tactic);
+    if (newState != null) {
+      goalStates.add(newState);
+      currentGoalState = newState;
+    }
+  }
+
+  Workspace({String? remoteUri})
       : dojoClient =
             remoteUri == null ? DojoClient() : DojoClient(remoteUri: remoteUri);
 }
