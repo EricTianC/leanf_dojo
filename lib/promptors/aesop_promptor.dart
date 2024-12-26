@@ -10,7 +10,7 @@ class AesopPromptor extends Promptor {
   bool check() => workspace.selectedGoal?.toString().contains('Prop') ?? false;
 
   @override
-  Widget widget() => AesopWidget();
+  Widget widget() => const AesopWidget();
 }
 
 class AesopWidget extends StatelessWidget {

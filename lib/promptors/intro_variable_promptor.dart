@@ -1,57 +1,45 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter/material.dart';
 import 'package:leanf_dojo/promptors/promptor.dart';
-// import 'package:leanf_dojo/promptors/use_tactic_promptor.dart';
 import 'package:leanf_dojo/workplace_provider.dart';
 import 'package:provider/provider.dart';
 
-class UseTacticPromptor extends Promptor {
-  UseTacticPromptor({required super.workspace});
+class IntroVariablePromptor extends Promptor {
+  IntroVariablePromptor({required super.workspace});
 
   @override
-  bool check() => (workspace.currentGoalState != null &&
-      !workspace.currentGoalState!.is_solved &&
-      workspace.selectedGoalId != null);
+  bool check() =>
+      (workspace.selectedGoal?.target.startsWith(RegExp('forall|∀')) ?? false);
 
   @override
-  Widget widget() {
-    return const UseTacticWidget();
-  }
+  Widget widget() => const IntroVariableWidget();
 }
 
-class UseTacticWidget extends StatelessWidget {
-  const UseTacticWidget({
-    super.key,
-    // required this.context,
-    // required this.useTacticController,
-  });
-
-  // final BuildContext context;
-  // final TextEditingController useTacticController;
+class IntroVariableWidget extends StatelessWidget {
+  const IntroVariableWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController useTacticController = TextEditingController();
+    // Workspace workspace = context.read<Workspace>();
+    TextEditingController controller = TextEditingController();
     return PromptCard(
         child: Row(
           children: [
             const Text(
-                style: TextStyle(fontFamily: 'XWWenkai', fontSize: 16),
-                '使用策略:'),
+                style: TextStyle(fontFamily: 'XWWenkai', fontSize: 16), '引入变量'),
             const SizedBox(width: 10),
             Expanded(
               child: TextField(
                 decoration: InputDecoration(
                   hintStyle: TextStyle(
                       color: Theme.of(context).colorScheme.secondaryFixedDim),
-                  hintText: 'exact?',
+                  hintText: 'p',
                 ),
-                controller: useTacticController,
+                controller: controller,
                 onSubmitted: (value) {
                   context.read<Workspace>().runGoalTactic(
                       state: context.read<Workspace>().currentGoalState!,
                       goalId: context.read<Workspace>().selectedGoalId!,
-                      tactic: useTacticController.text); // TODO: 语法检查和异常捕获
+                      tactic: 'intro ${controller.text}'); // TODO: 语法检查和异常捕获
                 },
               ),
             )
@@ -61,7 +49,7 @@ class UseTacticWidget extends StatelessWidget {
           context.read<Workspace>().runGoalTactic(
               state: context.read<Workspace>().currentGoalState!,
               goalId: context.read<Workspace>().selectedGoalId!,
-              tactic: useTacticController.text);
+              tactic: 'intro ${controller.text}');
         });
   }
 }

@@ -26,7 +26,7 @@ class _InfoPanelState extends State<InfoPanel> {
                     fontSize: 40,
                     fontFamily: 'XWWenkai',
                     fontWeight: FontWeight.w200),
-                '暂无待证目标'),
+                '所有目标已完成!🎉'),
           )
         ],
       );

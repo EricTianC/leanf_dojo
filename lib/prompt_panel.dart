@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:leanf_dojo/promptors/aesop_promptor.dart';
+import 'package:leanf_dojo/promptors/cases_promptor.dart';
+import 'package:leanf_dojo/promptors/intro_hypo_promptor.dart';
+import 'package:leanf_dojo/promptors/intro_variable_promptor.dart';
 import 'package:leanf_dojo/promptors/new_goal_promptor.dart';
 import 'package:leanf_dojo/promptors/promptor.dart';
 import 'package:leanf_dojo/promptors/use_tactic_promptor.dart';
@@ -24,7 +28,11 @@ class _PromptPanelState extends State<PromptPanel> {
     List<Promptor> promptors = [
       // ResetPromptor(workspace: workspace),
       NewGoalPromptor(workspace: workspace),
-      UseTacticPromptor(workspace: workspace)
+      AesopPromptor(workspace: workspace),
+      IntroVariablePromptor(workspace: workspace),
+      IntroHypoPromptor(workspace: workspace),
+      CasesPromptor(workspace: workspace),
+      UseTacticPromptor(workspace: workspace),
     ];
     List<Widget> cards = [];
 

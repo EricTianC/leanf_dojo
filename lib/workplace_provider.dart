@@ -17,7 +17,8 @@ class Workspace extends ChangeNotifier {
     return _currentGoalState;
   }
 
-  Goal? get selectedGoal => (selectedGoalId != null)
+  Goal? get selectedGoal => (selectedGoalId != null &&
+          ((currentGoalState?.goals.length ?? 0) > (selectedGoalId ?? 0)))
       ? currentGoalState?.goals[selectedGoalId!]
       : null;
 
